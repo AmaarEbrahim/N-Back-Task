@@ -49,35 +49,5 @@ class NBackStatsBloc extends Bloc<NBackStatsEvent, NBackStatsStatistic> {
       emit(NBackStatsStatistic(stats: game.generateStatistics()));
     }
   }
-
-  // void _handleSpatial(NBackMatchSpatial event, Emitter<NBackStatsStatistic> emit) {
-
-  //   Game2 game = BlocProvider.of<NBackBlock>(context).timedGame;
-
-  //   if (game.supportsMode(GameModes.visual)) {
-  //     game.matchType(GameModes.visual);
-  //     _generateStats(emit);
-  //   }
-
-
-  // }
-
-  // void _handleAudio(NBackMatchAudio event, Emitter<NBackStatsStatistic> emit) {
-
-  //   Game2 game = BlocProvider.of<NBackBlock>(context).timedGame;
-
-  //   if (game.supportsMode(GameModes.audio)) {
-  //     game.matchType(GameModes.audio);
-  //     _generateStats(emit);
-  //   }
-
-  // }
-
-  // void _generateStats(Emitter<NBackStatsStatistic> emit) {
-
-  //   Game2 game = BlocProvider.of<NBackBlock>(context).timedGame;
-
-  //   emit(NBackStatsStatistic(stats: game.generateStatistics()));
-  // }
   
 }

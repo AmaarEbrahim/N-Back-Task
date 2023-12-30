@@ -151,33 +151,6 @@ List<ModeInfo> generateModeInfo(GameTypes gt, NBackParameters params) {
 }
 
 
-// List<Mode> generateModeMap(GameTypes gt, NBackParameters params) {
-
-//   if (gt == GameTypes.audio) {
-//     return [AudioMode(domain: Letters.values, params: params.generalParameters)];
-//   } else if (gt == GameTypes.visual) {
-//     return [VisualMode(domain: Locations.values, params: params.generalParameters)];
-//   } else {
-//     return [
-//       AudioMode(domain: Letters.values, params: params.generalParameters),
-//       VisualMode(domain: Locations.values, params: params.generalParameters)
-//     ];
-//   }
-
-
-// }
-
-// /// TODO: merge with generateModeMap somehow
-// List<ModeCommunicator> generateModeCommunicators(GameTypes gt, NBackParameters param) {
-//   if (gt == GameTypes.audio) {
-//     return [AudioCommunicator()];
-//   } else if (gt == GameTypes.visual) {
-//     return [VisualCommunicator(generalParameters: param.generalParameters, visualParameters: param.getModeParameter())];
-//   } else {
-//     return [AudioCommunicator(), VisualCommunicator(generalParameters: param.generalParameters, visualParameters: param.getModeParameter())];
-//   }
-// }
-
 /// A BLoC that makes it possible to control the flow of the entire game session,
 /// while also outputting the squares that a UI component should show as the session
 /// progresses.
