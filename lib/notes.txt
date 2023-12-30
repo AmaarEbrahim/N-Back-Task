@@ -1,0 +1,16 @@
+1. page for doing dual n back
+    squares show up
+    voice plays
+    user presses keys when they think there is an audio or spatial match
+    (1) record and (2) display the number of correct and incorrect guesses
+
+    * issues: starting and stopping the game. When pausing, if a square is 
+    highlighted it should remain highlighted, and if audio is playing, it should
+    pause.
+
+    
+Mode-specific functionality
+    Each mode has a way to generate parameters - ModeParameters (NBackParameters stores GameModes -> ModeParameters)
+    Each mode picks new items differently every trial - Mode (Game2 stores GameModes -> Mode)
+    Each mode should have an instance that communicates the new item to the user ... 
+    Each mode has an instance for statistics - Stats2 (NBackStatsStatistic stores GameModes -> Stats2)
