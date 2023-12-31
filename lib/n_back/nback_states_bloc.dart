@@ -5,8 +5,7 @@ import 'package:n_back_application/n_back/nback_block.dart';
 
 // events
 abstract class NBackStatsEvent {}
-// class NBackMatchSpatial extends NBackStatsEvent {}
-// class NBackMatchAudio extends NBackStatsEvent {}
+
 class NBackMatch extends NBackStatsEvent {
   GameModes gm;
 
@@ -37,8 +36,6 @@ class NBackStatsBloc extends Bloc<NBackStatsEvent, NBackStatsStatistic> {
   BuildContext context;
 
   NBackStatsBloc(super.initialState, {required this.context}) {
-    // on(_handleSpatial);
-    // on(_handleAudio);
     on<NBackMatch>(_handleMatch);
   }
 

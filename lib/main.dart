@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:n_back_application/n_back/controller.dart';
@@ -10,16 +11,19 @@ import 'package:n_back_application/n_back/stat_displayer.dart';
 // TODO: close all streams
 //    close streamsubscribers through the `cancel` method
 
+// TODO: create audio mode
+
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -66,7 +66,7 @@ class NBackAudioParameters extends ModeParameter {}
 // whether there is an n-back match for the round of n-back
 // that the user is currently on. The function checkMatch
 // is supplied externally, so this class can be used to check
-// matches for any modality -- either spatial or auditory.
+// matches for any modality -- either visual or auditory.
 class Session {
   void Function() checkMatch;
   bool alreadyCheckedMatch = false;
@@ -85,8 +85,8 @@ class Session {
 
 /// Mode chooses the next item to use in the trial for a certain N-back
 /// mode. When the game runs, there will be a Mode instance for each of the
-/// game's modes. For example, if the game uses spatial and audio modes,
-/// there will be a Mode instance for spatial, and a Mode instance for audio.
+/// game's modes. For example, if the game uses visual and audio modes,
+/// there will be a Mode instance for visual, and a Mode instance for audio.
 /// Having one Mode instance per mode in the game ensures that in each trial
 /// a randomly selected value will be chosen and showed/played for every
 /// mode.
@@ -237,23 +237,6 @@ enum GameModes {
   audio, visual
 }
 
-
-
-List<Mode> generateModeMap(GameTypes gt, NBackParameters params) {
-
-  if (gt == GameTypes.audio) {
-    return [AudioMode(domain: Letters.values, params: params.generalParameters)];
-  } else if (gt == GameTypes.visual) {
-    return [VisualMode(domain: Locations.values, params: params.generalParameters)];
-  } else {
-    return [
-      AudioMode(domain: Letters.values, params: params.generalParameters),
-      VisualMode(domain: Locations.values, params: params.generalParameters)
-    ];
-  }
-
-
-}
 
 
 /// Game2 contains the core functionality of n-back. Each modality of n-back

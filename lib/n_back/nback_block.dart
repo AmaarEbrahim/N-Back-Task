@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:n_back_application/n_back/game.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 
+// events:
 abstract class GameEvent {}
 
-// store settings
-/// TODO: non-essential: create heirarchy of gameevents
 class StartGameSignal extends GameEvent {}
 
 class PauseGameSignal extends GameEvent {}
@@ -21,7 +20,9 @@ class RemoveSquareSignal extends GameEvent {}
 
 class AddSquareSignal extends GameEvent {}
 
-// states: game running, game paused, game complete
+class SayLetterSignal extends GameEvent {}
+
+// states: not started, game running, game paused, game complete
 abstract class GameState {
   Locations? squareToShow;
 
@@ -42,18 +43,32 @@ class CompleteGameState extends GameState {
 
 }
 
-// each mode is associated with a subclass that communicates the new item that 
-// the mode picked
+/// Each mode is associated with a subclass that communicates the new item that 
+/// the mode picked. ModeCommunicators exist throughout one entire game session.
+/// They should not be used once the game session that they were created for 
+/// is over.
 abstract class ModeCommunicator {
-  /// Creating a StreamSubscription from the Stream and then pausing and resuming that 
-  /// StreamSubscriber must be done by the consumer of this method.
+
+  /// Sends `GameEvent`s back to the consumer. These GameEvents should do something
+  /// to communicate information for a particular mode to the user in a single
+  /// trial of the game.
   StreamController<GameEvent> communicate2();
 
+  /// pauses the sending of information through the StreamController returned by
+  /// calling `this.communicate2`
   pause();
 
+  /// resumes sending information through the StreamController returned by calling
+  /// `this.communicate2`
   resume();
 }
 
+/// The ModeCommunicator associated with the visual game mode. Essentially, all it
+/// does is send an `AddSquareSignal` instance back to the consumer when the trial
+/// starts, and after a certain % of the trial specified by the parameters, it will
+/// send a `RemoveSquareSignal` back to the consumer. If the game session includes
+/// a visual mode, this should show a square on the game board when the trial 
+/// starts, and remove the square after a % of the trial has passed. 
 class VisualCommunicator extends ModeCommunicator {
 
   GeneralNBackParameters generalParameters;
@@ -67,12 +82,15 @@ class VisualCommunicator extends ModeCommunicator {
   StreamController<GameEvent> communicate2() {
     int milliseconds = (visualParameters.percentOfTrialThatSquareShows * generalParameters.trialLength * 1000).toInt();
 
+    // allows information to be passed back to the consumer.
     StreamController<GameEvent> m = StreamController();
 
     // show square signal
     m.add(AddSquareSignal());
 
+    // when this timer elapses, the square will be removed from the gameboard.
     t = PausableTimer(Duration(milliseconds: milliseconds), () {
+      // remove square
       m.add(RemoveSquareSignal());
     });
 
@@ -115,6 +133,9 @@ class AudioCommunicator extends ModeCommunicator {
 
 }
 
+
+/// `ModeInfo` is a class that stores a `Mode` instance and the `ModeCommunicator`
+/// associated with it.
 class ModeInfo {
   Mode mode;
   ModeCommunicator communicator;
@@ -180,7 +201,7 @@ class NBackBlock extends Bloc<GameEvent, GameState> {
     on<TickGameSignal>(_handleTickGameSignal);
     on<RemoveSquareSignal>(_handleRemoveSquare);
     on<AddSquareSignal>(_handleAddSquare);
-
+    on<SayLetterSignal>(_handleSayLetter);
 
   }
 
@@ -322,6 +343,13 @@ class NBackBlock extends Bloc<GameEvent, GameState> {
       VisualMode? m = timedGame.getModeFromGameModeEnum<VisualMode>();
       locationToShow = m?.lastItem();
       output(RunningGameState(squareToShow: locationToShow));
+    }
+  }
+
+  _handleSayLetter(SayLetterSignal signal, Emitter<GameState> output) {
+    if (state is RunningGameState) {
+      AudioMode? m = timedGame.getModeFromGameModeEnum<AudioMode>();
+      
     }
   }
 
